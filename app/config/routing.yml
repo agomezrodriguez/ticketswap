@@ -1,0 +1,5 @@
+app:
+    resource: "@TicketswapListingBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
