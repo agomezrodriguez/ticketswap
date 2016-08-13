@@ -1,0 +1,24 @@
+listing_index:
+    path:     /
+    defaults: { _controller: "TicketswapListingBundle:Listings:index" }
+    methods:  GET
+
+listing_show:
+    path:     /{id}/show
+    defaults: { _controller: "TicketswapListingBundle:Listings:show" }
+    methods:  GET
+
+listing_new:
+    path:     /new
+    defaults: { _controller: "TicketswapListingBundle:Listings:new" }
+    methods:  [GET, POST]
+
+listing_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TicketswapListingBundle:Listings:edit" }
+    methods:  [GET, POST]
+
+listing_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TicketswapListingBundle:Listings:delete" }
+    methods:  DELETE

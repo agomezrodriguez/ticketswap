@@ -1,0 +1,4 @@
+ticketswap_listing_listing:
+    resource: "@TicketswapListingBundle/Resources/config/routing/listings.yml"
+    prefix:   /listing
+

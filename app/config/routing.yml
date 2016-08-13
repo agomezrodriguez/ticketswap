@@ -1,3 +1,19 @@
+ticketswap_ticket:
+    resource: "@TicketswapTicketBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ticketswap_barcode:
+    resource: "@TicketswapBarcodeBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ticketswap_user:
+    resource: "@TicketswapUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ticketswap_listing:
+    resource: "@TicketswapListingBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@TicketswapListingBundle/Controller/"
     type:     annotation

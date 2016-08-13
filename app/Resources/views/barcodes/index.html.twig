@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Barcodes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Barcode</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for barcode in barcodes %}
+            <tr>
+                <td><a href="{{ path('barcode_show', { 'id': barcode.id }) }}">{{ barcode.id }}</a></td>
+                <td>{{ barcode.barcode }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('barcode_show', { 'id': barcode.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('barcode_edit', { 'id': barcode.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('barcode_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

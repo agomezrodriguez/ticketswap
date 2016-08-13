@@ -1,0 +1,4 @@
+ticketswap_user_users:
+    resource: "@TicketswapUserBundle/Resources/config/routing/users.yml"
+    prefix:   /user
+

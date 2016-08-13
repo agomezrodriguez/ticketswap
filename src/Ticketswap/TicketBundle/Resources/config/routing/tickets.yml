@@ -1,0 +1,24 @@
+ticket_index:
+    path:     /
+    defaults: { _controller: "TicketswapTicketBundle:Tickets:index" }
+    methods:  GET
+
+ticket_show:
+    path:     /{id}/show
+    defaults: { _controller: "TicketswapTicketBundle:Tickets:show" }
+    methods:  GET
+
+ticket_new:
+    path:     /new
+    defaults: { _controller: "TicketswapTicketBundle:Tickets:new" }
+    methods:  [GET, POST]
+
+ticket_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TicketswapTicketBundle:Tickets:edit" }
+    methods:  [GET, POST]
+
+ticket_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TicketswapTicketBundle:Tickets:delete" }
+    methods:  DELETE

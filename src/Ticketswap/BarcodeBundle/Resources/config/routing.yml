@@ -1,0 +1,4 @@
+ticketswap_barcode_barcode:
+    resource: "@TicketswapBarcodeBundle/Resources/config/routing/barcodes.yml"
+    prefix:   /barcode
+

@@ -1,0 +1,4 @@
+ticketswap_ticket_ticket:
+    resource: "@TicketswapTicketBundle/Resources/config/routing/tickets.yml"
+    prefix:   /ticket
+

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listings list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sellingprice</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for listing in listings %}
+            <tr>
+                <td><a href="{{ path('listing_show', { 'id': listing.id }) }}">{{ listing.id }}</a></td>
+                <td>{{ listing.sellingPrice }}</td>
+                <td>{{ listing.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('listing_show', { 'id': listing.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listing_edit', { 'id': listing.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('listing_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

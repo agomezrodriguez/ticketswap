@@ -15,7 +15,10 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new \Ticketswap\ListingBundle\TicketswapListingBundle()
+            new \Ticketswap\UserBundle\TicketswapUserBundle(),
+            new \Ticketswap\ListingBundle\TicketswapListingBundle(),
+            new \Ticketswap\TicketBundle\TicketswapTicketBundle(),
+            new \Ticketswap\BarcodeBundle\TicketswapBarcodeBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
