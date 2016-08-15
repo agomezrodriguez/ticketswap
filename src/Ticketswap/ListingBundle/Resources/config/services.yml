@@ -1,0 +1,11 @@
+services:
+
+    ticketswap_listing.listing_post:
+        class: Ticketswap\ListingBundle\Validation\PostListing
+        calls:
+            - [setValidator, [@validator]]
+
+    ticketswap_listing.listing_service:
+      class: Ticketswap\ListingBundle\Service\ListingService
+      arguments:
+        entityManager: "@doctrine.orm.entity_manager"
