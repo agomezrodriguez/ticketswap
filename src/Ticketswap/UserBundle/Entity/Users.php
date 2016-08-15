@@ -2,7 +2,9 @@
 
 namespace Ticketswap\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * Users
@@ -12,6 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Users
 {
+
+    public function __construct()
+    {
+        $this->listings = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -28,6 +36,11 @@ class Users
      */
     private $name;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Ticketswap\ListingBundle\Entity\Listings", mappedBy="user")
+     */
+    private $listings;
 
 
     /**

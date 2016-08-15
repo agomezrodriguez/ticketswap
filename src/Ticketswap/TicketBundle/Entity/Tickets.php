@@ -3,6 +3,8 @@
 namespace Ticketswap\TicketBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+
 
 /**
  * Tickets
@@ -18,6 +20,7 @@ class Tickets
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToMany(targetEntity="Ticketswap\BarcodeBundle\Entity\Barcodes", mappedBy="ticket")
      */
     private $id;
 
@@ -37,11 +40,8 @@ class Tickets
 
     /**
      * @var \Listings
-     *
-     * @ORM\ManyToOne(targetEntity="Ticketswap\ListingBundle\Entity\Listings")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="listing_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Ticketswap\ListingBundle\Entity\Listings", inversedBy="tickets")
+     * @JoinColumn(name="listing_id", referencedColumnName="id")
      */
     private $listing;
 
@@ -68,6 +68,7 @@ class Tickets
     public function setBoughtByUserId($boughtByUserId)
     {
         $this->boughtByUserId = $boughtByUserId;
+        return $this;
     }
 
     /**
@@ -84,6 +85,7 @@ class Tickets
     public function setBoughtAtDate($boughtAtDate)
     {
         $this->boughtAtDate = $boughtAtDate;
+        return $this;
     }
 
     /**
@@ -100,6 +102,7 @@ class Tickets
     public function setListing($listing)
     {
         $this->listing = $listing;
+        return $this;
     }
 
 

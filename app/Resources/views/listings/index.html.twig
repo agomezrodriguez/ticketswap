@@ -9,6 +9,7 @@
                 <th>Id</th>
                 <th>Sellingprice</th>
                 <th>Description</th>
+                <th>User</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
                 <td><a href="{{ path('listing_show', { 'id': listing.id }) }}">{{ listing.id }}</a></td>
                 <td>{{ listing.sellingPrice }}</td>
                 <td>{{ listing.description }}</td>
+                <td>{{ listing.user.namedescription }}</td>
                 <td>
                     <ul>
                         <li>

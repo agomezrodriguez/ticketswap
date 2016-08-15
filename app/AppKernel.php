@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new \Ticketswap\UserBundle\TicketswapUserBundle(),
             new \Ticketswap\ListingBundle\TicketswapListingBundle(),
             new \Ticketswap\TicketBundle\TicketswapTicketBundle(),
-            new \Ticketswap\BarcodeBundle\TicketswapBarcodeBundle()
+            new \Ticketswap\BarcodeBundle\TicketswapBarcodeBundle(),
+            new Ticketswap\CommonBundle\TicketswapCommonBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

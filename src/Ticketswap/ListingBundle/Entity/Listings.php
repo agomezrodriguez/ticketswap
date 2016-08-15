@@ -3,11 +3,12 @@
 namespace Ticketswap\ListingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ticketswap\UserBundle\Entity\Users;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * Listings
  *
- * @ORM\Table(name="listings", indexes={@ORM\Index(name="uid", columns={"uid"})})
  * @ORM\Entity
  */
 class Listings
@@ -18,6 +19,8 @@ class Listings
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * 
+     * @ORM\OneToMany(targetEntity="Ticketswap\TicketBundle\Entity\Tickets", mappedBy="listing")
      */
     private $id;
 
@@ -38,12 +41,10 @@ class Listings
     /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Ticketswap\UserBundle\Entity\Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="uid", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Ticketswap\UserBundle\Entity\Users", inversedBy="listings")
+     * @JoinColumn(name="uid", referencedColumnName="id")
      */
-    private $uid;
+    private $user;
 
     /**
      * Get id
@@ -69,6 +70,7 @@ class Listings
     public function setSellingPrice($sellingPrice)
     {
         $this->sellingPrice = $sellingPrice;
+        return $this;
     }
 
     /**
@@ -85,22 +87,24 @@ class Listings
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
      * @return \Users
      */
-    public function getUid()
+    public function getUser()
     {
-        return $this->uid;
+        return $this->user;
     }
 
     /**
-     * @param \Users $uid
+     * @param Users $user
      */
-    public function setUid($uid)
+    public function setUser(Users $user)
     {
-        $this->uid = $uid;
+        $this->user = $user;
+        return $this;
     }
 
     

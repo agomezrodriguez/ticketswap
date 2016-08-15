@@ -3,6 +3,8 @@
 namespace Ticketswap\BarcodeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+
 
 /**
  * Barcodes
@@ -31,9 +33,8 @@ class Barcodes
     /**
      * @var \Tickets
      *
-     * @ORM\ManyToOne(targetEntity="Ticketswap\TicketBundle\Entity\Tickets")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Ticketswap\TicketBundle\Entity\Tickets", inversedBy="barcodes")
+     * @JoinColumn(name="ticket_id", referencedColumnName="id")
      * })
      */
     private $ticket;
@@ -60,6 +61,7 @@ class Barcodes
     public function setBarcode($barcode)
     {
         $this->barcode = $barcode;
+        return $this;
     }
 
     /**
@@ -76,6 +78,7 @@ class Barcodes
     public function setTicket($ticket)
     {
         $this->ticket = $ticket;
+        return $this;
     }
 }
 

@@ -5,8 +5,12 @@ namespace Ticketswap\ListingBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Ticketswap\BarcodeBundle\Entity\Barcodes;
+use Ticketswap\CommonBundle\Util\Binder;
 use Ticketswap\ListingBundle\Entity\Listings;
-use Ticketswap\ListingBundle\Form\ListingsType;
+use FOS\RestBundle\Controller\Annotations as API;
+use Ticketswap\ListingBundle\Validation\PostListing;
+use Ticketswap\TicketBundle\Entity\Tickets;
 
 /**
  * Listings controller.
@@ -16,13 +20,14 @@ class ListingsController extends Controller
 {
     /**
      * Lists all Listings entities.
+     * @API\Get("/listing/all")
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $listings = $em->getRepository('TicketswapListingBundle:Listings')->findAll();
+        $user = $em->getRepository('TicketswapUserBundle:Users')->find(1);
+        $listings = $em->getRepository('TicketswapListingBundle:Listings')->findBy(['user' => $user]);
 
         return $this->render('listings/index.html.twig', array(
             'listings' => $listings,
@@ -31,25 +36,49 @@ class ListingsController extends Controller
 
     /**
      * Creates a new Listings entity.
-     *
+     * @API\Get("/listing/")
+
      */
-    public function newAction(Request $request)
+    public function newListingFormAction()
     {
-        $listing = new Listings();
-        $form = $this->createForm('Ticketswap\ListingBundle\Form\ListingsType', $listing);
-        $form->handleRequest($request);
+        return $this->render('listings/new.html.twig');
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($listing);
-            $em->flush();
+    /**
+     * Creates a new Listings entity.
+     * @API\Post("/listing/")
 
-            return $this->redirectToRoute('listing_show', array('id' => $listing->getId()));
+     */
+    public function postListingAction(Request $request)
+    {
+        $parameters = $request->request->all();
+        $parameters['tickets'] = json_decode($parameters['tickets']);
+
+        /** @var PostListing $listingPost */
+        $listingPost = $this->get("ticketswap_listing.listing_post");
+        $listingPost = $listingPost->bindData($parameters);
+        $validator = $this->get("validator");
+        $errors = $validator->validate($listingPost);
+
+        if (0 !== count($errors)) {
+            return $this->render('listings/new.html.twig', array(
+                'errors' => $errors,
+            ));
         }
+        $listingManager = $this->get("ticketswap_listing.listing_service");
+        try {
+            $listingManager->createListing($listingPost);
+        }catch (\Exception $e) {
+            $error[]['message'] = $e->getMessage();
+            return $this->render('listings/new.html.twig', array(
+                'errors' => $error,
+            ));
+        }
+        $uid = $listingPost->getListing()['uid'];
+        $listings = $listingManager->getListingsOfAUser($uid);
 
-        return $this->render('listings/new.html.twig', array(
-            'listing' => $listing,
-            'form' => $form->createView(),
+        return $this->render('listings/index.html.twig', array(
+            'listings' => $listings,
         ));
     }
 
@@ -59,70 +88,8 @@ class ListingsController extends Controller
      */
     public function showAction(Listings $listing)
     {
-        $deleteForm = $this->createDeleteForm($listing);
-
         return $this->render('listings/show.html.twig', array(
             'listing' => $listing,
-            'delete_form' => $deleteForm->createView(),
         ));
-    }
-
-    /**
-     * Displays a form to edit an existing Listings entity.
-     *
-     */
-    public function editAction(Request $request, Listings $listing)
-    {
-        $deleteForm = $this->createDeleteForm($listing);
-        $editForm = $this->createForm('Ticketswap\ListingBundle\Form\ListingsType', $listing);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($listing);
-            $em->flush();
-
-            return $this->redirectToRoute('listing_edit', array('id' => $listing->getId()));
-        }
-
-        return $this->render('listings/edit.html.twig', array(
-            'listing' => $listing,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a Listings entity.
-     *
-     */
-    public function deleteAction(Request $request, Listings $listing)
-    {
-        $form = $this->createDeleteForm($listing);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($listing);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('listing_index');
-    }
-
-    /**
-     * Creates a form to delete a Listings entity.
-     *
-     * @param Listings $listing The Listings entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Listings $listing)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('listing_delete', array('id' => $listing->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

@@ -3,14 +3,27 @@
 {% block body %}
     <h1>Listings creation</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {% for error in errors %}
+        <li style="color:red">{{ error.message }}</li>
+    {% endfor %}
+    <form name="listings" method="post">
+        <div class="form-group">
+            <label class="control-label required" for="listings_description">SellerId</label>
+            <input type="text" id="users_id" name="uid" required="required" class="form-control">
+        </div>
+        <div class="form-group">
+            <label class="control-label required" for="listings_sellingPrice">Selling price</label>
+            <input type="text" id="listings_sellingPrice" name="sellingPrice" required="required" class="form-control">
+        </div>
+        <div class="form-group">
+            <label class="control-label required" for="listings_description">Description</label>
+            <input type="text" id="listings_description" name="description" required="required" class="form-control">
+        </div>
+        <div class="form-group">
+            <label class="control-label required" for="tickets">Tickets barcodes (json array with barcodes)</label>
+            <input type="text" id="tickets" name="tickets" required="required" class="form-control" size="200"
+                   value='{"tickets":["EAN-13:111111111", "EAN-13:222222222"]}'>
+        </div>
         <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('listing_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    </form>
 {% endblock %}

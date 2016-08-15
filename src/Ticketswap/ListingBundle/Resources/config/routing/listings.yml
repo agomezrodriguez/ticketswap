@@ -1,17 +1,12 @@
-listing_index:
-    path:     /
-    defaults: { _controller: "TicketswapListingBundle:Listings:index" }
-    methods:  GET
-
 listing_show:
     path:     /{id}/show
     defaults: { _controller: "TicketswapListingBundle:Listings:show" }
     methods:  GET
 
 listing_new:
-    path:     /new
-    defaults: { _controller: "TicketswapListingBundle:Listings:new" }
-    methods:  [GET, POST]
+    path:     /
+    defaults: { _controller: "TicketswapListingBundle:Listings:newListingForm" }
+    methods:  [GET]
 
 listing_edit:
     path:     /{id}/edit
